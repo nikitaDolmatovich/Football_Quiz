@@ -122,14 +122,18 @@
   </data>
   <data name="MainMenu" xml:space="preserve">
     <value>Начальное меню</value>
+    <comment>/start</comment>
   </data>
   <data name="StartGame" xml:space="preserve">
     <value>Начать игру</value>
+    <comment>/play</comment>
   </data>
   <data name="Statistics" xml:space="preserve">
     <value>Позиция в рейтинге</value>
+    <comment>/stat</comment>
   </data>
   <data name="ThematicGame" xml:space="preserve">
     <value>Тематическая игра</value>
+    <comment>/thematic</comment>
   </data>
 </root>
