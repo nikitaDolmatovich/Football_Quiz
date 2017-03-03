@@ -18,6 +18,7 @@ namespace Bot.Backend.Logic
             context.Wait(MessageReceivedAsync);
         }
 
+
         public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> arguments)
         {
             var message = await arguments;

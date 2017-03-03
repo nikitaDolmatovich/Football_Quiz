@@ -23,12 +23,6 @@ namespace Bot.Backend
         {
             if (activity.Type == ActivityTypes.Message)
             {
-                //ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
-
-                //int length = (activity.Text ?? string.Empty).Length;
-
-                //Activity reply = activity.CreateReply($"You sent {activity.Text} which was {length} characters");
-                //await connector.Conversations.ReplyToActivityAsync(reply);
                 await Conversation.SendAsync(activity, () => new QuizDialog());
             }
             else
