@@ -1,14 +1,13 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Bot.Backend.Logic;
+using Bot.Backend.Resources;
+using Bot.Backend.HelpfulMethodes;
 
 namespace Bot.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class TestMessages
     {
-        [TestMethod]
-        public void TestMethod1()
-        {
-        }
     }
 }
