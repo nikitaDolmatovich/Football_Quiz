@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="foot_quiz_botdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="foot_quiz_botdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Championat">
           <Key>
             <PropertyRef Name="ChampionatId" />
@@ -52,7 +52,8 @@
             <End Role="Question" EntitySet="Question" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="foot_quiz_botdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -60,7 +61,7 @@
           <Key>
             <PropertyRef Name="ChampionatId" />
           </Key>
-          <Property Name="ChampionatId" Type="Int32" Nullable="false" />
+          <Property Name="ChampionatId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ChampionatName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="RaitingOfChampionat" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Questions" Relationship="Self.FK_Question_Championat" FromRole="Championat" ToRole="Question" />
@@ -69,18 +70,18 @@
           <Key>
             <PropertyRef Name="QuestionId" />
           </Key>
-          <Property Name="QuestionId" Type="Int32" Nullable="false" />
+          <Property Name="QuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Answer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Raiting" Type="Int32" Nullable="false" />
           <Property Name="ChampionatId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Championat" Relationship="Self.FK_Question_Championat" FromRole="Question" ToRole="Championat" />
-          <Property Name="QuestionValue" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Raiting" Type="Int32" />
         </EntityType>
@@ -96,7 +97,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="BotDataContexts" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="BotContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Championats" EntityType="Self.Championat" />
           <EntitySet Name="Questions" EntityType="Self.Question" />
           <EntitySet Name="Users" EntityType="Self.User" />
@@ -110,7 +111,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="foot_quiz_botdbModelStoreContainer" CdmEntityContainer="BotDataContexts">
+        <EntityContainerMapping StorageEntityContainer="foot_quiz_botdbModelStoreContainer" CdmEntityContainer="BotContext">
           <EntitySetMapping Name="Championats">
             <EntityTypeMapping TypeName="foot_quiz_botdbModel.Championat">
               <MappingFragment StoreEntitySet="Championat">
@@ -123,8 +124,8 @@
           <EntitySetMapping Name="Questions">
             <EntityTypeMapping TypeName="foot_quiz_botdbModel.Question">
               <MappingFragment StoreEntitySet="Question">
-                <ScalarProperty Name="QuestionValue" ColumnName="QuestionValue" />
                 <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="QuestionValue" ColumnName="QuestionValue" />
                 <ScalarProperty Name="Answer" ColumnName="Answer" />
                 <ScalarProperty Name="Raiting" ColumnName="Raiting" />
                 <ScalarProperty Name="ChampionatId" ColumnName="ChampionatId" />

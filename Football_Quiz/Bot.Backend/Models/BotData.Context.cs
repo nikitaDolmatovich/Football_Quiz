@@ -13,10 +13,10 @@ namespace Bot.Backend.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class BotDataContexts : DbContext
+    public partial class BotContext : DbContext
     {
-        public BotDataContexts()
-            : base("name=BotDataContexts")
+        public BotContext()
+            : base("name=BotContext")
         {
         }
     
