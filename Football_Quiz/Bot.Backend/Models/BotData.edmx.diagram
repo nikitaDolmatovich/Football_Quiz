@@ -4,12 +4,11 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="93e539f192d94b6bb6055dd5211925af" Name="Diagram1">
-        <EntityTypeShape EntityType="BotDataModel.Championat" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="BotDataModel.Question" Width="1.5" PointX="5.25" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="BotDataModel.User" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <AssociationConnector Association="BotDataModel.FK_Championat_User" ManuallyRouted="false" />
-        <AssociationConnector Association="BotDataModel.FK_Question_Championat" ManuallyRouted="false" />
+      <Diagram DiagramId="f7b8613f7194431f878ba146e0b0aa70" Name="Diagram1">
+        <EntityTypeShape EntityType="foot_quiz_botdbModel.Championat" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="foot_quiz_botdbModel.Question" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="foot_quiz_botdbModel.User" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="foot_quiz_botdbModel.FK_Question_Championat" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

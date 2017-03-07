@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
 using Bot.Backend.Resources;
 using Bot.Backend.HelpfulMethodes;
+using Bot.Backend.Models;
 
 namespace Bot.Backend.Logic
 {

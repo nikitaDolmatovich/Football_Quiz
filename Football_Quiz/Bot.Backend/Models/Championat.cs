@@ -22,9 +22,8 @@ namespace Bot.Backend.Models
     
         public int ChampionatId { get; set; }
         public string ChampionatName { get; set; }
-        public int UserId { get; set; }
+        public int RaitingOfChampionat { get; set; }
     
-        public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Question> Questions { get; set; }
     }

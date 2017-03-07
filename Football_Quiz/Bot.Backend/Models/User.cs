@@ -14,18 +14,8 @@ namespace Bot.Backend.Models
     
     public partial class User
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
-        {
-            this.Championats = new HashSet<Championat>();
-        }
-    
         public int UserId { get; set; }
         public string Username { get; set; }
-        public Nullable<int> CommonRaiting { get; set; }
-        public Nullable<int> ChampionatRaiting { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Championat> Championats { get; set; }
+        public Nullable<int> Raiting { get; set; }
     }
 }

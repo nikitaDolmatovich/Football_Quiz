@@ -15,10 +15,10 @@ namespace Bot.Backend.Models
     public partial class Question
     {
         public int QuestionId { get; set; }
-        public string Question1 { get; set; }
         public string Answer { get; set; }
-        public int RaitingPoint { get; set; }
+        public int Raiting { get; set; }
         public int ChampionatId { get; set; }
+        public string QuestionValue { get; set; }
     
         public virtual Championat Championat { get; set; }
     }
