@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BotDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Championat">
+          <Key>
+            <PropertyRef Name="ChampionatId" />
+          </Key>
+          <Property Name="ChampionatId" Type="int" Nullable="false" />
+          <Property Name="ChampionatName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="int" Nullable="false" />
+          <Property Name="Question" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Answer" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RaitingPoint" Type="int" Nullable="false" />
+          <Property Name="ChampionatId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Username" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CommonRaiting" Type="int" />
+          <Property Name="ChampionatRaiting" Type="int" />
+        </EntityType>
+        <Association Name="FK_Championat_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Championat" Type="Self.Championat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Championat">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Question_Championat">
+          <End Role="Championat" Type="Self.Championat" Multiplicity="1" />
+          <End Role="Question" Type="Self.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Championat">
+              <PropertyRef Name="ChampionatId" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="ChampionatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BotDataModelStoreContainer">
+          <EntitySet Name="Championat" EntityType="Self.Championat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Championat_User" Association="Self.FK_Championat_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Championat" EntitySet="Championat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Question_Championat" Association="Self.FK_Question_Championat">
+            <End Role="Championat" EntitySet="Championat" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BotDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Championat">
+          <Key>
+            <PropertyRef Name="ChampionatId" />
+          </Key>
+          <Property Name="ChampionatId" Type="Int32" Nullable="false" />
+          <Property Name="ChampionatName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Championat_User" FromRole="Championat" ToRole="User" />
+          <NavigationProperty Name="Questions" Relationship="Self.FK_Question_Championat" FromRole="Championat" ToRole="Question" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="Int32" Nullable="false" />
+          <Property Name="Question1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RaitingPoint" Type="Int32" Nullable="false" />
+          <Property Name="ChampionatId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Championat" Relationship="Self.FK_Question_Championat" FromRole="Question" ToRole="Championat" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CommonRaiting" Type="Int32" />
+          <Property Name="ChampionatRaiting" Type="Int32" />
+          <NavigationProperty Name="Championats" Relationship="Self.FK_Championat_User" FromRole="User" ToRole="Championat" />
+        </EntityType>
+        <Association Name="FK_Championat_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Championat" Type="Self.Championat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Championat">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Question_Championat">
+          <End Role="Championat" Type="Self.Championat" Multiplicity="1" />
+          <End Role="Question" Type="Self.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Championat">
+              <PropertyRef Name="ChampionatId" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="ChampionatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BotDataContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Championats" EntityType="Self.Championat" />
+          <EntitySet Name="Questions" EntityType="Self.Question" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_Championat_User" Association="Self.FK_Championat_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Championat" EntitySet="Championats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Question_Championat" Association="Self.FK_Question_Championat">
+            <End Role="Championat" EntitySet="Championats" />
+            <End Role="Question" EntitySet="Questions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BotDataModelStoreContainer" CdmEntityContainer="BotDataContext">
+          <EntitySetMapping Name="Championats">
+            <EntityTypeMapping TypeName="BotDataModel.Championat">
+              <MappingFragment StoreEntitySet="Championat">
+                <ScalarProperty Name="ChampionatId" ColumnName="ChampionatId" />
+                <ScalarProperty Name="ChampionatName" ColumnName="ChampionatName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Questions">
+            <EntityTypeMapping TypeName="BotDataModel.Question">
+              <MappingFragment StoreEntitySet="Question">
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="Question1" ColumnName="Question" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="RaitingPoint" ColumnName="RaitingPoint" />
+                <ScalarProperty Name="ChampionatId" ColumnName="ChampionatId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="BotDataModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="CommonRaiting" ColumnName="CommonRaiting" />
+                <ScalarProperty Name="ChampionatRaiting" ColumnName="ChampionatRaiting" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
