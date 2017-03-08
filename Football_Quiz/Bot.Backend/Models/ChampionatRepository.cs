@@ -5,6 +5,7 @@ using System.Web;
 
 namespace Bot.Backend.Models
 {
+    [Serializable]
     public class ChampionatRepository : IRepository<Championat>
     {
         private BotContext context;

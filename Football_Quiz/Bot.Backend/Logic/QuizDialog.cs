@@ -14,14 +14,12 @@ namespace Bot.Backend.Logic
     [Serializable]
     public class QuizDialog : IDialog<object>
     {
-        private UnitOfWork unit;
+        private Condition condition = new Condition();
 
         public async Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
-            unit = new UnitOfWork();
         }
-
 
         public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> arguments)
         {
@@ -31,6 +29,7 @@ namespace Bot.Backend.Logic
             switch(messageText)
             {
                 case "/start":
+                    condition.IsPlay = false;
                     var startMenu = Message.GetWelcomeMessage();
                     await context.PostAsync(startMenu); 
                     context.Wait(MessageReceivedAsync);
@@ -40,6 +39,9 @@ namespace Bot.Backend.Logic
                     await context.PostAsync(question);
                     var answer = message.Text;
                     context.Wait(MessageReceivedAsync);
+                    break;
+                case "/thematic":
+                    ChooseChampionat(context, ChoiceSelectAsync, "Выберите чемпионат");
                     break;
                 default:
                     await context.PostAsync(CreateReply(message.Text));
@@ -59,6 +61,24 @@ namespace Bot.Backend.Logic
             {
                 return "Ты дурак!";
             }
+        }
+
+        private void ChooseChampionat(IDialogContext context, ResumeAfter<string> method, string message)
+        {
+            BotContext botContext = new BotContext();
+            ChampionatRepository repo = new ChampionatRepository(botContext);
+            PromptDialog.Choice(context, method, repo.GetAll(), message);
+        }
+
+        private async Task ChoiceSelectAsync(IDialogContext context, IAwaitable<string> result)
+        {
+            var choice = await result;
+            var question = new Questionnaire();
+
+            condition.CurrentChampionat = choice;
+            await context.PostAsync($"Чемпионат : {condition.CurrentChampionat}");
+            await context.PostAsync(question.CreateChampionatReply());
+            context.Wait(MessageReceivedAsync);
         }
     }
 }

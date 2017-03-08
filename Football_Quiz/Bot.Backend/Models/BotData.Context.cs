@@ -13,6 +13,7 @@ namespace Bot.Backend.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
+    [Serializable]
     public partial class BotContext : DbContext
     {
         public BotContext()

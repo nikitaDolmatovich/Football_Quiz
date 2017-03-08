@@ -5,6 +5,7 @@ using System.Web;
 
 namespace Bot.Backend.Models
 {
+    [Serializable]
     public class UnitOfWork : IDisposable
     {
         private BotContext context = new BotContext();
