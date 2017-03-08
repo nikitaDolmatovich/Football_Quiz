@@ -161,6 +161,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HelpfulMethodes\Message.cs" />
+    <Compile Include="Logic\Condition.cs" />
     <Compile Include="Logic\QuizDialog.cs" />
     <Compile Include="Models\BotData.Context.cs">
       <AutoGen>True</AutoGen>
