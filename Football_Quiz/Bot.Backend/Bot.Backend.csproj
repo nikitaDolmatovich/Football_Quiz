@@ -180,6 +180,7 @@
     <Compile Include="Models\Championat.cs">
       <DependentUpon>BotData.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\IRepository.cs" />
     <Compile Include="Models\Question.cs">
       <DependentUpon>BotData.tt</DependentUpon>
     </Compile>
