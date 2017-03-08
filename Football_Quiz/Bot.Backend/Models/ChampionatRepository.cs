@@ -14,6 +14,8 @@ namespace Bot.Backend.Models
             this.context = context;
         }
 
+        public ChampionatRepository() { }
+
         public IEnumerable<Championat> GetAll()
         {
             return context.Championats;
@@ -29,7 +31,7 @@ namespace Bot.Backend.Models
             }
             else
             {
-                NullReferenceException ex = new NullReferenceException();
+                NullReferenceException ex = new NullReferenceException("Null Reference exception");
                 throw ex;
             }
         }
