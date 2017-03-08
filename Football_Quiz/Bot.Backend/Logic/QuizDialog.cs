@@ -14,9 +14,12 @@ namespace Bot.Backend.Logic
     [Serializable]
     public class QuizDialog : IDialog<object>
     {
+        private UnitOfWork unit;
+
         public async Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
+            unit = new UnitOfWork();
         }
 
 

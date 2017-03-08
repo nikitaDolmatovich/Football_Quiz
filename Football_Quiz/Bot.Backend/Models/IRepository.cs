@@ -8,7 +8,7 @@ namespace Bot.Backend.Models
 {
     public interface IRepository<T> where T : class
     {
-        IEnumerable<T> GetAll();
+        List<string> GetAll();
         T Get(string name);
     }
 }

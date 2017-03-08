@@ -16,9 +16,10 @@ namespace Bot.Backend.Models
 
         public ChampionatRepository() { }
 
-        public IEnumerable<Championat> GetAll()
+        public List<string> GetAll()
         {
-            return context.Championats;
+            var championat = context.Championats.Select(x => x.ChampionatName).ToList<string>();
+            return championat;
         }
 
         public Championat Get(string name)
