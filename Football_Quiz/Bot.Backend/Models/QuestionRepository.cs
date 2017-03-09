@@ -39,17 +39,27 @@ namespace Bot.Backend.Models
             }
         }
 
-        public Question GetById(Championat championat)
+        public string GetNewQuestion(string championatName)
         {
-            var questions = context.Questions.Where(x => x.ChampionatId == championat.ChampionatId).ToList();
+            var championat = context.Championats.FirstOrDefault(x => x.ChampionatName == championatName);
 
-            if(questions != null)
+            if(championat != null)
             {
-                return questions[Random.Next(0, questions.Count)];
+                var questions = context.Questions.Where(x => x.ChampionatId == championat.ChampionatId).ToList();
+
+                if (questions != null)
+                {
+                    return questions[Random.Next(0, questions.Count)].QuestionValue;
+                }
+                else
+                {
+                    NullReferenceException ex = new NullReferenceException("Null reference exception");
+                    throw ex;
+                }
             }
             else
             {
-                NullReferenceException ex = new NullReferenceException("Null Reference exception");
+                NullReferenceException ex = new NullReferenceException("Null reference expection");
                 throw ex;
             }
         }

@@ -78,7 +78,7 @@ namespace Bot.Backend.Logic
 
             condition.CurrentChampionat = choice;
             await context.PostAsync($"Чемпионат : {condition.CurrentChampionat}");
-            await context.PostAsync(question.CreateChampionatReply());
+            await context.PostAsync(question.CreateChampionatQuestion(choice));
             context.Wait(MessageReceivedAsync);
         }
     }
