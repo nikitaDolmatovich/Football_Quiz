@@ -187,6 +187,7 @@
     <Compile Include="Models\Question.cs">
       <DependentUpon>BotData.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\QuestionRepository.cs" />
     <Compile Include="Models\UnitOfWork.cs" />
     <Compile Include="Models\User.cs">
       <DependentUpon>BotData.tt</DependentUpon>

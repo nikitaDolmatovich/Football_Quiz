@@ -9,6 +9,7 @@ namespace Bot.Backend.Models
     public class ChampionatRepository : IRepository<Championat>
     {
         private BotContext context;
+        private static Random random = new Random();
 
         public ChampionatRepository(BotContext context)
         {

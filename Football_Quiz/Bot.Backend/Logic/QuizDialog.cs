@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Luis;
 using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
 using Bot.Backend.Resources;
 using Bot.Backend.HelpfulMethodes;
 using Bot.Backend.Models;
+using Microsoft.Bot.Builder.FormFlow;
 
 namespace Bot.Backend.Logic
 {
@@ -46,8 +48,7 @@ namespace Bot.Backend.Logic
                 default:
                     await context.PostAsync(CreateReply(message.Text));
                     context.Wait(MessageReceivedAsync);
-                    break;
-
+                    break;      
             }
         }
 
