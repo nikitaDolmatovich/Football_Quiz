@@ -42,7 +42,7 @@ namespace Bot.Backend.Logic
                     context.Wait(MessageReceivedAsync);
                     break;
                 case "/thematic":
-                    ChooseChampionat(context, ChoiceSelectAsync, "Выберите чемпионат");
+                    ChooseChampionat(context, ChoiceSelectChampionatAsync, "Выберите чемпионат : ");
                     break;
                 default:
                     //await context.PostAsync();
@@ -58,7 +58,7 @@ namespace Bot.Backend.Logic
             PromptDialog.Choice(context, method, repo.GetAll(), message);
         }
 
-        private async Task ChoiceSelectAsync(IDialogContext context, IAwaitable<string> result)
+        private async Task ChoiceSelectChampionatAsync(IDialogContext context, IAwaitable<string> result)
         {
             var choice = await result;
             var question = new Questionnaire();
@@ -67,6 +67,11 @@ namespace Bot.Backend.Logic
             await context.PostAsync($"Чемпионат : {condition.CurrentChampionat}");
             await context.PostAsync(question.CreateChampionatQuestion(choice));
             context.Wait(MessageReceivedAsync);
+        }
+
+        private async Task ChooseAnswer(IDialogContext context, ResumeAfter<string> method, string message)
+        {
+            PromptDialog.Choice(context, method, Message.GetAnswers(), message);
         }
     }
 }

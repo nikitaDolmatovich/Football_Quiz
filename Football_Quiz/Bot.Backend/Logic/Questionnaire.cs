@@ -17,7 +17,7 @@ namespace Bot.Backend.Logic
             QuestionRepository repo = new QuestionRepository(context);
 
             var question = repo.GetNewRandomQuestion(championatName);
-            var entry = repo.Get(championatName);
+            var entry = context.Questions.FirstOrDefault(x => x.QuestionValue == question);
 
             return Message.ShowQuestion(question, GetRandomAnswers(entry),entry);
         }
@@ -27,7 +27,7 @@ namespace Bot.Backend.Logic
             List<string> list = GetListAnswers(question);
             Random rand = new Random();
 
-            SwapList(ref list, rand.Next(0, 4));
+            SwapList(ref list, rand.Next(0, NUMBER_QUESTION));
 
             return list;
         }
@@ -54,21 +54,17 @@ namespace Bot.Backend.Logic
                 case 2:
                     for(int i = 0; i < answers.Count - 2; i++)
                     {
-                        answers[i] = answers[i + 1];
-                    }
-                    break;
-                case 3:
-                    for(int i = 0; i < answers.Count - 2; i++)
-                    {
                         answers[i] = answers[size];
                         size--;
                     }
+                    break;
+                case 3:
                     break;
                 case 4:
                     for(int i = 0; i < answers.Count - 2; i++)
                     {
                         answers[i] = answers[size - 1];
-                        size--;
+                        size += 2;
                     }
                     break;
             }
