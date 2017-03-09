@@ -39,28 +39,15 @@ namespace Bot.Backend.Logic
                 case "/play":
                     var question = "Сколько команд в чемпионате Беларуси?";
                     await context.PostAsync(question);
-                    var answer = message.Text;
                     context.Wait(MessageReceivedAsync);
                     break;
                 case "/thematic":
                     ChooseChampionat(context, ChoiceSelectAsync, "Выберите чемпионат");
                     break;
                 default:
-                    await context.PostAsync(CreateReply(message.Text));
+                    //await context.PostAsync();
                     context.Wait(MessageReceivedAsync);
                     break;      
-            }
-        }
-
-        private string CreateReply(string answer)
-        {
-            if(answer == "16")
-            {
-                return "Ты прав!";
-            }
-            else
-            {
-                return "Ты дурак!";
             }
         }
 

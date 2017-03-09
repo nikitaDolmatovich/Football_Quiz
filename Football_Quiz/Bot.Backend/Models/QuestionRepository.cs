@@ -26,11 +26,21 @@ namespace Bot.Backend.Models
 
         public Question Get(string name)
         {
-            var question = context.Questions.FirstOrDefault(x => x.QuestionValue == name);
+            var championat = context.Championats.FirstOrDefault(x => x.ChampionatName == name);
 
-            if(question != null)
+            if(championat != null)
             {
-                return question;
+                var question = context.Questions.FirstOrDefault(x => x.ChampionatId == championat.ChampionatId);
+
+                if(question != null)
+                {
+                    return question;
+                }
+                else
+                {
+                    NullReferenceException ex = new NullReferenceException("Null Reference exception");
+                    throw ex;
+                }
             }
             else
             {
@@ -39,7 +49,7 @@ namespace Bot.Backend.Models
             }
         }
 
-        public string GetNewQuestion(string championatName)
+        public string GetNewRandomQuestion(string championatName)
         {
             var championat = context.Championats.FirstOrDefault(x => x.ChampionatName == championatName);
 
