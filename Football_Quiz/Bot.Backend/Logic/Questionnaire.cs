@@ -19,20 +19,37 @@ namespace Bot.Backend.Logic
             var question = repo.GetNewRandomQuestion(championatName);
             var entry = context.Questions.FirstOrDefault(x => x.QuestionValue == question);
 
-            return Message.ShowQuestion(question, GetRandomAnswers(entry),entry);
+            return Message.ShowQuestion(question, GetListAnswers(entry),entry);
         }
 
-        private List<string> GetRandomAnswers(Question question)
+        public string CreateReply(string variant, Condition condition)
         {
-            List<string> list = GetListAnswers(question);
-            Random rand = new Random();
+            BotContext context = new BotContext();
+            QuestionRepository repo = new QuestionRepository();
 
-            SwapList(ref list, rand.Next(0, NUMBER_QUESTION));
+            var entry = context.Questions.FirstOrDefault(x => x.QuestionValue == condition.CurrentQuestion);
 
-            return list;
+            if(entry != null)
+            {
+                if(string.Compare(variant.ToLower(), entry.AnswerTrue.ToLower()) == 0)
+                {
+                    return "Ты заработал 5 монет!\n" +
+                        "\nСледующий вопрос\n" +
+                        "\n" + CreateChampionatQuestion(condition.CurrentChampionat);
+                }
+                else
+                {
+                    return "Вы ошиблись, попробуйте снова! ";
+                }
+            }
+            else
+            {
+                NullReferenceException ex = new NullReferenceException();
+                throw ex;
+            }
         }
 
-        private List<string> GetListAnswers(Question question)
+        public List<string> GetListAnswers(Question question)
         {
             List<string> list = new List<string>();
 
@@ -42,32 +59,6 @@ namespace Bot.Backend.Logic
             list.Add(question.AnswerFalseThird);
 
             return list;
-        }
-
-        private void SwapList(ref List<string> answers, int label)
-        {
-            int size = answers.Count;
-            switch(label)
-            {
-                case 1:
-                    break;
-                case 2:
-                    for(int i = 0; i < answers.Count - 2; i++)
-                    {
-                        answers[i] = answers[size];
-                        size--;
-                    }
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    for(int i = 0; i < answers.Count - 2; i++)
-                    {
-                        answers[i] = answers[size - 1];
-                        size += 2;
-                    }
-                    break;
-            }
         }
     }
 }

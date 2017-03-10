@@ -9,8 +9,6 @@ namespace Bot.Backend.HelpfulMethodes
 {
     public static class Message
     {
-        private static string str = "";
-
         public static string GetWelcomeMessage()
         {
 
@@ -33,22 +31,6 @@ namespace Bot.Backend.HelpfulMethodes
                 "\nЭтот вопрос стоит " + obj.Raiting + " Очков";
 
             return questionString;
-        }
-
-        public static List<string> GetAnswers()
-        {
-            List<string> answers = new List<string>();
-
-            for(int i = 0; i < str.Length - 1; i++)
-            {
-                if(Char.IsNumber(str[i]) && Char.IsNumber(str[i+1]))
-                {
-                    int test = str[i] + str[i + 1];
-                    answers.Add(test.ToString());
-                }
-            }
-
-            return answers;
         }
     }
 }

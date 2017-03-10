@@ -10,6 +10,7 @@ using Bot.Backend.Resources;
 using Bot.Backend.HelpfulMethodes;
 using Bot.Backend.Models;
 using Microsoft.Bot.Builder.FormFlow;
+using System.Text;
 
 namespace Bot.Backend.Logic
 {
@@ -27,6 +28,7 @@ namespace Bot.Backend.Logic
         {
             var message = await arguments;
             var messageText = message.Text;
+            var quest = new Questionnaire();
 
             switch(messageText)
             {
@@ -45,7 +47,8 @@ namespace Bot.Backend.Logic
                     ChooseChampionat(context, ChoiceSelectChampionatAsync, "Выберите чемпионат : ");
                     break;
                 default:
-                    //await context.PostAsync();
+                    var answer = ParseVariant(messageText, condition.CurrentMessage);
+                    await context.PostAsync(quest.CreateReply(answer,condition));
                     context.Wait(MessageReceivedAsync);
                     break;      
             }
@@ -64,14 +67,58 @@ namespace Bot.Backend.Logic
             var question = new Questionnaire();
 
             condition.CurrentChampionat = choice;
+            var questionString = question.CreateChampionatQuestion(choice);
+            condition.CurrentQuestion = ParseQuestion(questionString);
+            condition.CurrentMessage = questionString;
             await context.PostAsync($"Чемпионат : {condition.CurrentChampionat}");
             await context.PostAsync(question.CreateChampionatQuestion(choice));
             context.Wait(MessageReceivedAsync);
         }
 
-        private async Task ChooseAnswer(IDialogContext context, ResumeAfter<string> method, string message)
+        private string ParseQuestion(string question)
         {
-            PromptDialog.Choice(context, method, Message.GetAnswers(), message);
+            StringBuilder sb = new StringBuilder();
+
+            for(int i = 0; i < question.Length; i++)
+            {
+                if((char)question[i] != '?')
+                {
+                    sb.Append(question[i]);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        private string ParseVariant(string variant, string question)
+        {
+            StringBuilder sb = new StringBuilder();
+            var symbol = Convert.ToChar(variant);
+
+            for(int i = 0; i < question.Length; i++)
+            {
+                if(char.ToLower(question[i]) == char.ToLower(symbol) &&
+                    question[i + 1] == ')')
+                {
+                    for(int j = i + 2; j < question.Length; j++)
+                    {
+                        if(question[j] != '\n')
+                        {
+                            sb.Append(question[j]);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return sb.ToString();
         }
     }
 }

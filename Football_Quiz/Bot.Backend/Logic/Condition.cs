@@ -10,6 +10,7 @@ namespace Bot.Backend.Logic
     {
         public string CurrentChampionat { get; set; }
         public string CurrentQuestion { get; set; }
+        public string CurrentMessage { get; set; }
         public bool IsPlay { get; set; }
     }
 }
