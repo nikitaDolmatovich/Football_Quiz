@@ -11,6 +11,7 @@ using Bot.Backend.HelpfulMethodes;
 using Bot.Backend.Models;
 using Microsoft.Bot.Builder.FormFlow;
 using System.Text;
+using System.Activities;
 
 namespace Bot.Backend.Logic
 {
@@ -72,6 +73,7 @@ namespace Bot.Backend.Logic
             condition.CurrentMessage = questionString;
             await context.PostAsync($"Чемпионат : {condition.CurrentChampionat}");
             await context.PostAsync(question.CreateChampionatQuestion(choice));
+            await context.PostAsync(CreateButtons(context));
             context.Wait(MessageReceivedAsync);
         }
 
@@ -119,6 +121,47 @@ namespace Bot.Backend.Logic
             }
 
             return sb.ToString();
+        }
+
+        private IMessageActivity CreateButtons(IDialogContext context)
+        {
+            var card = new HeroCard("Варианты ответа");
+            card.Buttons = new List<CardAction>()
+            {
+                new CardAction()
+                {
+                    Title = "A",
+                    Type=ActionTypes.ImBack,
+                    Value = "A",
+                },
+                new CardAction()
+                {
+                    Title = "B",
+                    Type=ActionTypes.ImBack,
+                    Value = "B"
+                },
+                new CardAction()
+                {
+                    Title = "C",
+                    Type=ActionTypes.ImBack,
+                    Value = "C"
+                },
+                new CardAction()
+                {
+                    Title = "D",
+                    Type = ActionTypes.ImBack,
+                    Value = "D"
+                }
+            };
+
+            var reply = context.MakeMessage();
+            reply.Attachments = new List<Attachment>();
+            reply.Attachments.Add(new Attachment()
+            {
+                ContentType = HeroCard.ContentType,
+                Content = card,
+            });
+            return reply;
         }
     }
 }
