@@ -49,7 +49,8 @@ namespace Bot.Backend.Logic
                     break;
                 default:
                     var answer = ParseVariant(messageText, condition.CurrentMessage);
-                    await context.PostAsync(quest.CreateReply(answer,condition));
+                    await context.PostAsync(quest.CreateReply(answer, condition));
+                    await context.PostAsync(Message.CreateButtons(context));
                     context.Wait(MessageReceivedAsync);
                     break;      
             }
@@ -73,7 +74,7 @@ namespace Bot.Backend.Logic
             condition.CurrentMessage = questionString;
             await context.PostAsync($"Чемпионат : {condition.CurrentChampionat}");
             await context.PostAsync(question.CreateChampionatQuestion(choice));
-            await context.PostAsync(CreateButtons(context));
+            await context.PostAsync(Message.CreateButtons(context));
             context.Wait(MessageReceivedAsync);
         }
 
@@ -123,45 +124,5 @@ namespace Bot.Backend.Logic
             return sb.ToString();
         }
 
-        private IMessageActivity CreateButtons(IDialogContext context)
-        {
-            var card = new HeroCard("Варианты ответа");
-            card.Buttons = new List<CardAction>()
-            {
-                new CardAction()
-                {
-                    Title = "A",
-                    Type=ActionTypes.ImBack,
-                    Value = "A",
-                },
-                new CardAction()
-                {
-                    Title = "B",
-                    Type=ActionTypes.ImBack,
-                    Value = "B"
-                },
-                new CardAction()
-                {
-                    Title = "C",
-                    Type=ActionTypes.ImBack,
-                    Value = "C"
-                },
-                new CardAction()
-                {
-                    Title = "D",
-                    Type = ActionTypes.ImBack,
-                    Value = "D"
-                }
-            };
-
-            var reply = context.MakeMessage();
-            reply.Attachments = new List<Attachment>();
-            reply.Attachments.Add(new Attachment()
-            {
-                ContentType = HeroCard.ContentType,
-                Content = card,
-            });
-            return reply;
-        }
     }
 }

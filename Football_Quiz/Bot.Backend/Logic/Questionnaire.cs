@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using Bot.Backend.Models;
 using Bot.Backend.HelpfulMethodes;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Builder.Dialogs;
+using System.Threading.Tasks;
 
 namespace Bot.Backend.Logic
 {
@@ -33,13 +36,15 @@ namespace Bot.Backend.Logic
             {
                 if(string.Compare(variant.ToLower(), entry.AnswerTrue.ToLower()) == 0)
                 {
+
                     return "Ты заработал 5 монет!\n" +
-                        "\nСледующий вопрос\n" +
-                        "\n" + CreateChampionatQuestion(condition.CurrentChampionat);
+                       "\nСледующий вопрос\n" +
+                       "\n" + CreateChampionatQuestion(condition.CurrentChampionat);
                 }
                 else
                 {
-                    return "Вы ошиблись, попробуйте снова! ";
+                    return "Вы ошиблись, попробуйте снова!\n" + 
+                        "\n" + message;
                 }
             }
             else
