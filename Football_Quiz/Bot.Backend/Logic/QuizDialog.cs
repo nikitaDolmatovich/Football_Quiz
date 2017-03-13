@@ -30,6 +30,8 @@ namespace Bot.Backend.Logic
             var message = await arguments;
             var messageText = message.Text;
             var quest = new Questionnaire();
+            BotContext botContext = new BotContext();
+            UserRepository repo = new UserRepository(botContext);
 
             switch(messageText)
             {
@@ -37,6 +39,10 @@ namespace Bot.Backend.Logic
                     condition.IsPlay = false;
                     var startMenu = Message.GetWelcomeMessage();
                     await context.PostAsync(startMenu); 
+                    if(!repo.IsExist(context.MakeMessage().Recipient.Name))
+                    {
+                        repo.AddUser(context.MakeMessage().Recipient.Name);
+                    }
                     context.Wait(MessageReceivedAsync);
                     break;
                 case "/play":

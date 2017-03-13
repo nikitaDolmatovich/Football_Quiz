@@ -51,5 +51,27 @@ namespace Bot.Backend.Models
                 throw ex;
             }
         }
+
+        public void AddUser(string username)
+        {
+            User user = new User();
+            user.Username = username;
+            context.Users.Add(user);
+            context.SaveChanges();
+        }
+
+        public bool IsExist(string username)
+        {
+            var user = context.Users.FirstOrDefault(x => x.Username == username);
+
+            if(user != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
