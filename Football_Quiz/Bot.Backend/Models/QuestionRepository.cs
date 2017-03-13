@@ -73,5 +73,12 @@ namespace Bot.Backend.Models
                 throw ex;
             }
         }
+
+        public string GetRandomQuestion()
+        {
+            var question = context.Questions.ToList();
+
+            return question[Random.Next(0, question.Count)].QuestionValue;
+        }
     }
 }

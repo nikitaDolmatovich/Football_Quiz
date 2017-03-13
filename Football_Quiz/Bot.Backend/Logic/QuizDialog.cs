@@ -40,8 +40,16 @@ namespace Bot.Backend.Logic
                     context.Wait(MessageReceivedAsync);
                     break;
                 case "/play":
-                    var question = "Сколько команд в чемпионате Беларуси?";
-                    await context.PostAsync(question);
+                    if (!condition.IsPlay)
+                    {
+                        condition.IsPlay = true;
+                        await context.PostAsync(quest.CreateRandomQuetion());
+                        await context.PostAsync(Message.CreateButtons(context));
+                    }
+                    else
+                    {
+                        await context.PostAsync("Вы уже играете!");
+                    }
                     context.Wait(MessageReceivedAsync);
                     break;
                 case "/thematic":

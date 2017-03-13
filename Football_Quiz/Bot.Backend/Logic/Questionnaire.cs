@@ -25,6 +25,17 @@ namespace Bot.Backend.Logic
             return Message.ShowQuestion(question, GetListAnswers(entry),entry);
         }
 
+        public string CreateRandomQuetion()
+        {
+            BotContext context = new BotContext();
+            QuestionRepository repo = new QuestionRepository(context);
+
+            var question = repo.GetRandomQuestion();
+            var entry = context.Questions.FirstOrDefault(x => x.QuestionValue == question);
+
+            return Message.ShowQuestion(question, GetListAnswers(entry), entry);
+        }
+
         public string CreateReply(string variant, Condition condition)
         {
             BotContext context = new BotContext();
@@ -43,8 +54,7 @@ namespace Bot.Backend.Logic
                 }
                 else
                 {
-                    return "Вы ошиблись, попробуйте снова!\n" + 
-                        "\n" + message;
+                    return "Вы ошиблись, попробуйте снова!\n";
                 }
             }
             else
