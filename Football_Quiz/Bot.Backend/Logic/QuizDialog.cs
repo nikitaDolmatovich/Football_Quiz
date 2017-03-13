@@ -52,6 +52,11 @@ namespace Bot.Backend.Logic
                     }
                     context.Wait(MessageReceivedAsync);
                     break;
+                case "/enough":
+                    condition.IsPlay = false;
+                    await context.PostAsync("Игрза закончилась и ты заработал 10 монет!");
+                    context.Wait(MessageReceivedAsync);
+                    break;
                 case "/thematic":
                     ChooseChampionat(context, ChoiceSelectChampionatAsync, "Выберите чемпионат : ");
                     break;
