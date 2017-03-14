@@ -53,16 +53,9 @@ namespace Bot.Backend.Logic
                     context.Wait(MessageReceivedAsync);
                     break;
                 case "/play":
-                    if (!condition.IsPlay)
-                    {
-                        condition.IsPlay = true;
-                        await context.PostAsync(quest.CreateRandomQuetion());
-                        await context.PostAsync(Message.CreateButtons(context));
-                    }
-                    else
-                    {
-                        await context.PostAsync("Вы уже играете!");
-                    }
+                    condition.IsPlay = true;
+                    await context.PostAsync(quest.CreateRandomQuetion());
+                    await context.PostAsync(Message.CreateButtons(context));
                     context.Wait(MessageReceivedAsync);
                     break;
                 case "/enough":
@@ -75,7 +68,7 @@ namespace Bot.Backend.Logic
                     break;
                 default:
                     var answer = ParseVariant(messageText, condition.CurrentMessage);
-                    await context.PostAsync(quest.CreateReply(answer,condition));
+                    await context.PostAsync(quest.CreateReply(answer,condition,context.MakeMessage().Recipient.Name));
                     await context.PostAsync(Message.CreateButtons(context));
                     context.Wait(MessageReceivedAsync);
                     break;      

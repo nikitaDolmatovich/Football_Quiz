@@ -36,25 +36,34 @@ namespace Bot.Backend.Logic
             return Message.ShowQuestion(question, GetListAnswers(entry), entry);
         }
 
-        public string CreateReply(string variant, Condition condition)
+        public string CreateReply(string variant, Condition condition, string username)
         {
             BotContext context = new BotContext();
-            QuestionRepository repo = new QuestionRepository();
+            QuestionRepository repo = new QuestionRepository(context);
+            UserRepository userRepo = new UserRepository(context);
 
             var entry = context.Questions.FirstOrDefault(x => x.QuestionValue == condition.CurrentQuestion);
+            var championat = context.Championats.FirstOrDefault(x => x.ChampionatId == entry.ChampionatId);
+            var user = context.Users.FirstOrDefault(x => x.Username == username);
+            var currentRaiting = user.Raiting;
 
-            if(entry != null)
+            if(entry != null && championat != null)
             {
                 if(string.Compare(variant.ToLower(), entry.AnswerTrue.ToLower()) == 0)
                 {
-
-                    return "Ты заработал " + entry.Raiting + "очков\n" +
+                    int? raiting = currentRaiting + CalculateRaiting(championat.RaitingOfChampionat, entry.Raiting);
+                    userRepo.UpdateRaiting(username,raiting);
+                    return "Ты заработал " + CalculateRaiting(championat.RaitingOfChampionat, entry.Raiting) + "очков\n" +
                        "\nСледующий вопрос\n" +
                        "\n" + CreateChampionatQuestion(condition.CurrentChampionat);
                 }
                 else
                 {
-                    return "Вы ошиблись, попробуйте снова!\n";
+                    int? raiting = currentRaiting - CalculateRaiting(championat.RaitingOfChampionat, entry.Raiting);
+                    userRepo.UpdateRaiting(username, raiting);
+                    return "Вы ошиблись!\n" +
+                        "\n Я снял у вас " + CalculateRaiting(championat.RaitingOfChampionat, entry.Raiting) + " очков!" + 
+                        "\n" + CreateChampionatQuestion(condition.CurrentChampionat);
                 }
             }
             else
@@ -75,5 +84,11 @@ namespace Bot.Backend.Logic
 
             return list;
         }
+
+        public int CalculateRaiting(int raitingChampionat, int raitingQuestion)
+        {
+            return raitingChampionat * raitingQuestion;
+        }
+
     }
 }

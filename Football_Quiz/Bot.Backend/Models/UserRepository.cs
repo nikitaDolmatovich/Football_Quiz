@@ -36,7 +36,7 @@ namespace Bot.Backend.Models
             }
         }
 
-        public void UpdateRaiting(string username, int raiting)
+        public void UpdateRaiting(string username, int? raiting)
         {
             var user = context.Users.FirstOrDefault(x => x.Username == username);
 
@@ -71,6 +71,21 @@ namespace Bot.Backend.Models
             else
             {
                 return false;
+            }
+        }
+
+        public int? GetCurrentRaiting(string username)
+        {
+            var user = context.Users.FirstOrDefault(x => x.Username == username);
+
+            if(user != null)
+            {
+                return user.Raiting;
+            }
+            else
+            {
+                NullReferenceException ex = new NullReferenceException();
+                throw ex;
             }
         }
     }
