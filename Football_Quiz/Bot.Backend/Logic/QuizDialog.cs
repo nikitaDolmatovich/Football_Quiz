@@ -41,7 +41,14 @@ namespace Bot.Backend.Logic
                     await context.PostAsync(startMenu); 
                     if(!repo.IsExist(context.MakeMessage().Recipient.Name))
                     {
-                        repo.AddUser(context.MakeMessage().Recipient.Name);
+                        if (context.MakeMessage().Recipient.Name == null)
+                        {
+                            await context.PostAsync("Установить username иначе я не смогу сохранить ваш рейтинг!");
+                        }
+                        else
+                        {
+                            repo.AddUser(context.MakeMessage().Recipient.Name);
+                        }
                     }
                     context.Wait(MessageReceivedAsync);
                     break;
@@ -68,7 +75,7 @@ namespace Bot.Backend.Logic
                     break;
                 default:
                     var answer = ParseVariant(messageText, condition.CurrentMessage);
-                    await context.PostAsync(quest.CreateReply(answer, condition));
+                    await context.PostAsync(quest.CreateReply(answer,condition));
                     await context.PostAsync(Message.CreateButtons(context));
                     context.Wait(MessageReceivedAsync);
                     break;      

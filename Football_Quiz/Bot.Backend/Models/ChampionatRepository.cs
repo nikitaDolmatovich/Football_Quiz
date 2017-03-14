@@ -38,5 +38,20 @@ namespace Bot.Backend.Models
                 throw ex;
             }
         }
+
+        public int GetRaitingChampionat(string championat)
+        {
+            var entry = context.Championats.FirstOrDefault(x => x.ChampionatName == championat);
+
+            if(entry != null)
+            {
+                return entry.RaitingOfChampionat;
+            }
+            else
+            {
+                NullReferenceException ex = new NullReferenceException();
+                throw ex;
+            }
+        }
     }
 }

@@ -48,7 +48,7 @@ namespace Bot.Backend.Logic
                 if(string.Compare(variant.ToLower(), entry.AnswerTrue.ToLower()) == 0)
                 {
 
-                    return "Ты заработал 5 монет!\n" +
+                    return "Ты заработал " + entry.Raiting + "очков\n" +
                        "\nСледующий вопрос\n" +
                        "\n" + CreateChampionatQuestion(condition.CurrentChampionat);
                 }

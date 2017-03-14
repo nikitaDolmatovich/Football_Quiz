@@ -80,5 +80,20 @@ namespace Bot.Backend.Models
 
             return question[Random.Next(0, question.Count)].QuestionValue;
         }
+
+        public int GetRaintingQuestion(string question)
+        {
+            var entry = context.Questions.FirstOrDefault(x => x.QuestionValue == question);
+
+            if(entry != null)
+            {
+                return entry.Raiting;
+            }
+            else
+            {
+                NullReferenceException ex = new NullReferenceException();
+                throw ex;
+            }
+        }
     }
 }

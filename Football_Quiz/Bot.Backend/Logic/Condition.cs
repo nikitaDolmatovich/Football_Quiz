@@ -13,5 +13,6 @@ namespace Bot.Backend.Logic
         public string CurrentMessage { get; set; }
         public string PreviousMessage { get; set; }
         public bool IsPlay { get; set; }
+        public int CurrentRaiting { get; set; }
     }
 }
