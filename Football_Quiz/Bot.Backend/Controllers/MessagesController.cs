@@ -23,7 +23,7 @@ namespace Bot.Backend
         {
             if (activity.Type == ActivityTypes.Message)
             {
-                await Conversation.SendAsync(activity, () => new QuizDialog());
+                await Conversation.SendAsync(activity, () => new  QuizDialog());
             }
             else
             {

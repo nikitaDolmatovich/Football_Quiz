@@ -38,7 +38,6 @@ namespace Bot.Backend.Logic
                 case "/start":
                     condition.IsPlay = false;
                     var startMenu = Message.GetWelcomeMessage();
-                    await context.PostAsync(startMenu); 
                     if(!repo.IsExist(context.MakeMessage().Recipient.Name))
                     {
                         if (context.MakeMessage().Recipient.Name == null)
@@ -53,9 +52,16 @@ namespace Bot.Backend.Logic
                     context.Wait(MessageReceivedAsync);
                     break;
                 case "/play":
-                    condition.IsPlay = true;
-                    await context.PostAsync(quest.CreateRandomQuetion());
-                    await context.PostAsync(Message.CreateButtons(context));
+                    if (!condition.IsPlay)
+                    {
+                        condition.IsPlay = true;
+                        await context.PostAsync(quest.CreateRandomQuetion());
+                        await context.PostAsync(Message.CreateButtons(context));
+                    }
+                    else
+                    {
+                        await context.PostAsync("Вы уже играете!");
+                    }
                     context.Wait(MessageReceivedAsync);
                     break;
                 case "/enough":
@@ -65,6 +71,11 @@ namespace Bot.Backend.Logic
                     break;
                 case "/thematic":
                     ChooseChampionat(context, ChoiceSelectChampionatAsync, "Выберите чемпионат : ");
+                    break;
+                case "/stat":
+                    var raiting = repo.GetCurrentRaiting(context.MakeMessage().Recipient.Name).ToString();
+                    await context.PostAsync(raiting);
+                    context.Wait(MessageReceivedAsync);
                     break;
                 default:
                     var answer = ParseVariant(messageText, condition.CurrentMessage);
@@ -142,6 +153,5 @@ namespace Bot.Backend.Logic
 
             return sb.ToString();
         }
-
     }
 }

@@ -5,7 +5,6 @@ using System.Web;
 
 namespace Bot.Backend.Models
 {
-    [Serializable]
     public class UserRepository : IRepository<User>
     {
         private BotContext context = new BotContext();
