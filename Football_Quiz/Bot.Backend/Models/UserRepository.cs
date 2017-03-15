@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bot.Backend.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,9 +8,9 @@ namespace Bot.Backend.Models
 {
     public class UserRepository : IRepository<User>
     {
-        private BotContext context = new BotContext();
+        private BotContexts context = new BotContexts();
 
-        public UserRepository(BotContext context)
+        public UserRepository(BotContexts context)
         {
             this.context = context;
         }
@@ -35,7 +36,7 @@ namespace Bot.Backend.Models
             }
         }
 
-        public void UpdateRaiting(string username, int? raiting)
+        public void UpdateRaiting(string username, int raiting)
         {
             var user = context.Users.FirstOrDefault(x => x.Username == username);
 
@@ -55,6 +56,7 @@ namespace Bot.Backend.Models
         {
             User user = new User();
             user.Username = username;
+            user.Raiting = 0;
             context.Users.Add(user);
             context.SaveChanges();
         }
@@ -73,7 +75,7 @@ namespace Bot.Backend.Models
             }
         }
 
-        public int? GetCurrentRaiting(string username)
+        public int GetCurrentRaiting(string username)
         {
             var user = context.Users.FirstOrDefault(x => x.Username == username);
 

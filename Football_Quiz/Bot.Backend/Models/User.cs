@@ -16,6 +16,6 @@ namespace Bot.Backend.Models
     {
         public int UserId { get; set; }
         public string Username { get; set; }
-        public Nullable<int> Raiting { get; set; }
+        public int Raiting { get; set; }
     }
 }

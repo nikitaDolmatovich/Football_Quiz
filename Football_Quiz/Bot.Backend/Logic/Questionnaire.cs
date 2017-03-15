@@ -16,7 +16,7 @@ namespace Bot.Backend.Logic
 
         public string CreateChampionatQuestion(string championatName)
         {
-            BotContext context = new BotContext();
+            BotContexts context = new BotContexts();
             QuestionRepository repo = new QuestionRepository(context);
 
             var question = repo.GetNewRandomQuestion(championatName);
@@ -27,7 +27,7 @@ namespace Bot.Backend.Logic
 
         public string CreateRandomQuetion()
         {
-            BotContext context = new BotContext();
+            BotContexts context = new BotContexts();
             QuestionRepository repo = new QuestionRepository(context);
 
             var question = repo.GetRandomQuestion();
@@ -38,7 +38,7 @@ namespace Bot.Backend.Logic
 
         public string CreateReply(string variant, Condition condition, string username)
         {
-            BotContext context = new BotContext();
+            BotContexts context = new BotContexts();
             QuestionRepository repo = new QuestionRepository(context);
             UserRepository userRepo = new UserRepository(context);
 
@@ -51,7 +51,7 @@ namespace Bot.Backend.Logic
             {
                 if(string.Compare(variant.ToLower(), entry.AnswerTrue.ToLower()) == 0)
                 {
-                    int? raiting = currentRaiting + CalculateRaiting(championat.RaitingOfChampionat, entry.Raiting);
+                    int raiting = currentRaiting + CalculateRaiting(championat.RaitingOfChampionat, entry.Raiting);
                     userRepo.UpdateRaiting(username,raiting);
                     return "Ты заработал " + CalculateRaiting(championat.RaitingOfChampionat, entry.Raiting) + "очков\n" +
                        "\nСледующий вопрос\n" +
@@ -59,7 +59,7 @@ namespace Bot.Backend.Logic
                 }
                 else
                 {
-                    int? raiting = currentRaiting - CalculateRaiting(championat.RaitingOfChampionat, entry.Raiting);
+                    int raiting = currentRaiting - CalculateRaiting(championat.RaitingOfChampionat, entry.Raiting);
                     userRepo.UpdateRaiting(username, raiting);
                     return "Вы ошиблись!\n" +
                         "\n Я снял у вас " + CalculateRaiting(championat.RaitingOfChampionat, entry.Raiting) + " очков!" + 

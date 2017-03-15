@@ -30,7 +30,7 @@ namespace Bot.Backend.Logic
             var message = await arguments;
             var messageText = message.Text;
             var quest = new Questionnaire();
-            BotContext botContext = new BotContext();
+            BotContexts botContext = new BotContexts();
             UserRepository repo = new UserRepository(botContext);
 
             switch(messageText)
@@ -38,7 +38,8 @@ namespace Bot.Backend.Logic
                 case "/start":
                     condition.IsPlay = false;
                     var startMenu = Message.GetWelcomeMessage();
-                    if(!repo.IsExist(context.MakeMessage().Recipient.Name))
+                    await context.PostAsync(startMenu);
+                    if (!repo.IsExist(context.MakeMessage().Recipient.Name))
                     {
                         if (context.MakeMessage().Recipient.Name == null)
                         {
@@ -88,7 +89,7 @@ namespace Bot.Backend.Logic
 
         private void ChooseChampionat(IDialogContext context, ResumeAfter<string> method, string message)
         {
-            BotContext botContext = new BotContext();
+            BotContexts botContext = new BotContexts();
             ChampionatRepository repo = new ChampionatRepository(botContext);
             PromptDialog.Choice(context, method, repo.GetAll(), message);
         }

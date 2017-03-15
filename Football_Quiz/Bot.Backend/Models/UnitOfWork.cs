@@ -8,7 +8,7 @@ namespace Bot.Backend.Models
     [Serializable]
     public class UnitOfWork : IDisposable
     {
-        private BotContext context = new BotContext();
+        private BotContexts context = new BotContexts();
         private ChampionatRepository championatRepo;
         private bool disposed = false;
 

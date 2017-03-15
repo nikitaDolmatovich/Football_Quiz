@@ -8,10 +8,10 @@ namespace Bot.Backend.Models
     [Serializable]
     public class ChampionatRepository : IRepository<Championat>
     {
-        private BotContext context;
+        private BotContexts context;
         private static Random random = new Random();
 
-        public ChampionatRepository(BotContext context)
+        public ChampionatRepository(BotContexts context)
         {
             this.context = context;
         }
