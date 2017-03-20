@@ -13,6 +13,7 @@ namespace Bot.Backend.Logic
     public class Questionnaire
     {
         private const int NUMBER_QUESTION = 4;
+        private Singletone singletone = Singletone.Instance;
 
         public string CreateChampionatQuestion(string championatName)
         {
@@ -21,8 +22,10 @@ namespace Bot.Backend.Logic
 
             var question = repo.GetNewRandomQuestion(championatName);
             var entry = context.Questions.FirstOrDefault(x => x.QuestionValue == question);
+            singletone.Condition.CurrentQuestion = question;
+            singletone.Condition.CurrentMessage = Extension.ShowQuestion(question, GetListAnswers(entry), entry);
 
-            return Extension.ShowQuestion(question, GetListAnswers(entry),entry);
+            return singletone.Condition.CurrentMessage;
         }
 
         public string CreateRandomQuetion()
@@ -36,13 +39,13 @@ namespace Bot.Backend.Logic
             return Extension.ShowQuestion(question, GetListAnswers(entry), entry);
         }
 
-        public string CreateReply(string variant, Condition condition, string username)
+        public string CreateReply(string variant, string question, string username)
         {
             BotContexts context = new BotContexts();
             QuestionRepository repo = new QuestionRepository(context);
             UserRepository userRepo = new UserRepository(context);
 
-            var entry = context.Questions.FirstOrDefault(x => x.QuestionValue == condition.CurrentQuestion);
+            var entry = context.Questions.FirstOrDefault(x => x.QuestionValue == question);
             var championat = context.Championats.FirstOrDefault(x => x.ChampionatId == entry.ChampionatId);
             var user = context.Users.FirstOrDefault(x => x.Username == username);
             var currentRaiting = user.Raiting;
@@ -54,9 +57,10 @@ namespace Bot.Backend.Logic
                     int raitingForQuestion = CalculateRaiting(championat.RaitingOfChampionat, entry.Raiting);
                     int raiting = currentRaiting + raitingForQuestion;
                     userRepo.UpdateRaiting(username,raiting);
+                    singletone.Condition.CurrentChampionat = championat.ChampionatName;
                     return "Ты заработал " + raitingForQuestion + "очков\n" +
                        "\nСледующий вопрос\n" +
-                       "\n" + CreateChampionatQuestion(condition.CurrentChampionat);
+                       "\n" + CreateChampionatQuestion(singletone.Condition.CurrentChampionat);
                 }
                 else
                 {
@@ -65,7 +69,7 @@ namespace Bot.Backend.Logic
                     userRepo.UpdateRaiting(username, raiting);
                     return "Вы ошиблись!\n" +
                         "\n Я снял у вас " +raitingForQuestion + " очков!" + 
-                        "\n" + CreateChampionatQuestion(condition.CurrentChampionat);
+                        "\n" + CreateChampionatQuestion(singletone.Condition.CurrentChampionat);
                 }
             }
             else

@@ -18,8 +18,6 @@ namespace Bot.Backend.Logic
     [Serializable]
     public class QuizDialog : IDialog<object>
     {
-        private Singletone singletone = Singletone.Instance;
-
         public async Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
@@ -27,6 +25,7 @@ namespace Bot.Backend.Logic
 
         public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> arguments)
         {
+            Singletone singletone = Singletone.Instance;
             var message = await arguments;
             var messageText = message.Text;
             var quest = new Questionnaire();
@@ -76,7 +75,7 @@ namespace Bot.Backend.Logic
                     break;
                 default:
                     var answer = Extension.ParseVariant(messageText, singletone.Condition.CurrentMessage);
-                    await context.PostAsync(quest.CreateReply(answer, singletone.Condition, context.MakeMessage().Recipient.Name));
+                    await context.PostAsync(quest.CreateReply(answer, singletone.Condition.CurrentQuestion, context.MakeMessage().Recipient.Name));
                     await context.PostAsync(Extension.CreateButtons(context));
                     context.Wait(MessageReceivedAsync);
                     break;      
@@ -94,6 +93,7 @@ namespace Bot.Backend.Logic
         {
             var choice = await result;
             var question = new Questionnaire();
+            Singletone singletone = Singletone.Instance;
 
             singletone.Condition.CurrentChampionat = choice;
             var questionString = question.CreateChampionatQuestion(choice);
