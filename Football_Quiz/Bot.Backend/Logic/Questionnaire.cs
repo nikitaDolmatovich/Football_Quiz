@@ -22,7 +22,7 @@ namespace Bot.Backend.Logic
             var question = repo.GetNewRandomQuestion(championatName);
             var entry = context.Questions.FirstOrDefault(x => x.QuestionValue == question);
 
-            return Message.ShowQuestion(question, GetListAnswers(entry),entry);
+            return Extension.ShowQuestion(question, GetListAnswers(entry),entry);
         }
 
         public string CreateRandomQuetion()
@@ -33,7 +33,7 @@ namespace Bot.Backend.Logic
             var question = repo.GetRandomQuestion();
             var entry = context.Questions.FirstOrDefault(x => x.QuestionValue == question);
 
-            return Message.ShowQuestion(question, GetListAnswers(entry), entry);
+            return Extension.ShowQuestion(question, GetListAnswers(entry), entry);
         }
 
         public string CreateReply(string variant, Condition condition, string username)

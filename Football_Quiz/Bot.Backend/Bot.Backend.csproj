@@ -160,7 +160,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="HelpfulMethodes\Message.cs" />
+    <Compile Include="HelpfulMethodes\Extension.cs" />
     <Compile Include="Logic\Condition.cs" />
     <Compile Include="Logic\Questionnaire.cs" />
     <Compile Include="Logic\QuizDialog.cs" />

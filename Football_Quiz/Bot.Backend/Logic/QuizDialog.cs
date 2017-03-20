@@ -37,7 +37,7 @@ namespace Bot.Backend.Logic
             {
                 case "/start":
                     singletone.Condition.IsPlay = false;
-                    var startMenu = Message.GetWelcomeMessage();
+                    var startMenu = Extension.GetWelcomeMessage();
                     await context.PostAsync(startMenu);
                     if (!repo.IsExist(context.MakeMessage().Recipient.Name))
                     {
@@ -57,7 +57,7 @@ namespace Bot.Backend.Logic
                     {
                         singletone.Condition.IsPlay = true;
                         await context.PostAsync(quest.CreateRandomQuetion());
-                        await context.PostAsync(Message.CreateButtons(context));
+                        await context.PostAsync(Extension.CreateButtons(context));
                     }
                     else
                     {
@@ -75,9 +75,9 @@ namespace Bot.Backend.Logic
                     context.Wait(MessageReceivedAsync);
                     break;
                 default:
-                    var answer = ParseVariant(messageText, singletone.Condition.CurrentMessage);
+                    var answer = Extension.ParseVariant(messageText, singletone.Condition.CurrentMessage);
                     await context.PostAsync(quest.CreateReply(answer, singletone.Condition, context.MakeMessage().Recipient.Name));
-                    await context.PostAsync(Message.CreateButtons(context));
+                    await context.PostAsync(Extension.CreateButtons(context));
                     context.Wait(MessageReceivedAsync);
                     break;      
             }
@@ -97,58 +97,12 @@ namespace Bot.Backend.Logic
 
             singletone.Condition.CurrentChampionat = choice;
             var questionString = question.CreateChampionatQuestion(choice);
-            singletone.Condition.CurrentQuestion = ParseQuestion(questionString);
+            singletone.Condition.CurrentQuestion = Extension.ParseQuestion(questionString);
             singletone.Condition.CurrentMessage = questionString;
             await context.PostAsync($"Чемпионат : {singletone.Condition.CurrentChampionat}");
             await context.PostAsync(singletone.Condition.CurrentMessage);
-            await context.PostAsync(Message.CreateButtons(context));
+            await context.PostAsync(Extension.CreateButtons(context));
             context.Wait(MessageReceivedAsync);
-        }
-
-        private string ParseQuestion(string question)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            for(int i = 0; i < question.Length; i++)
-            {
-                if((char)question[i] != '?')
-                {
-                    sb.Append(question[i]);
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            return sb.ToString();
-        }
-
-        private string ParseVariant(string variant, string question)
-        {
-            StringBuilder sb = new StringBuilder();
-            var symbol = Convert.ToChar(variant);
-
-            for(int i = 0; i < question.Length; i++)
-            {
-                if(char.ToLower(question[i]) == char.ToLower(symbol) &&
-                    question[i + 1] == ')')
-                {
-                    for(int j = i + 2; j < question.Length; j++)
-                    {
-                        if(question[j] != '\n')
-                        {
-                            sb.Append(question[j]);
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                }
-            }
-
-            return sb.ToString();
         }
     }
 }
