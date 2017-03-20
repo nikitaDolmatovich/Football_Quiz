@@ -18,7 +18,7 @@ namespace Bot.Backend.Logic
     [Serializable]
     public class QuizDialog : IDialog<object>
     {
-        private Condition condition = new Condition();
+        private Singletone singletone = Singletone.Instance;
 
         public async Task StartAsync(IDialogContext context)
         {
@@ -36,14 +36,14 @@ namespace Bot.Backend.Logic
             switch(messageText)
             {
                 case "/start":
-                    condition.IsPlay = false;
+                    singletone.Condition.IsPlay = false;
                     var startMenu = Message.GetWelcomeMessage();
                     await context.PostAsync(startMenu);
                     if (!repo.IsExist(context.MakeMessage().Recipient.Name))
                     {
                         if (context.MakeMessage().Recipient.Name == null)
                         {
-                            await context.PostAsync("Установить username иначе я не смогу сохранить ваш рейтинг!");
+                            await context.PostAsync("Установить в настройках username, иначе я не смогу сохранить ваш рейтинг!");
                         }
                         else
                         {
@@ -53,9 +53,9 @@ namespace Bot.Backend.Logic
                     context.Wait(MessageReceivedAsync);
                     break;
                 case "/play":
-                    if (!condition.IsPlay)
+                    if (!singletone.Condition.IsPlay)
                     {
-                        condition.IsPlay = true;
+                        singletone.Condition.IsPlay = true;
                         await context.PostAsync(quest.CreateRandomQuetion());
                         await context.PostAsync(Message.CreateButtons(context));
                     }
@@ -65,22 +65,18 @@ namespace Bot.Backend.Logic
                     }
                     context.Wait(MessageReceivedAsync);
                     break;
-                case "/enough":
-                    condition.IsPlay = false;
-                    await context.PostAsync("Игрза закончилась и ты заработал 10 монет!");
-                    context.Wait(MessageReceivedAsync);
-                    break;
                 case "/thematic":
                     ChooseChampionat(context, ChoiceSelectChampionatAsync, "Выберите чемпионат : ");
                     break;
                 case "/stat":
+                    singletone.Condition.IsPlay = false;
                     var raiting = repo.GetCurrentRaiting(context.MakeMessage().Recipient.Name).ToString();
                     await context.PostAsync(raiting);
                     context.Wait(MessageReceivedAsync);
                     break;
                 default:
-                    var answer = ParseVariant(messageText, condition.CurrentMessage);
-                    await context.PostAsync(quest.CreateReply(answer,condition,context.MakeMessage().Recipient.Name));
+                    var answer = ParseVariant(messageText, singletone.Condition.CurrentMessage);
+                    await context.PostAsync(quest.CreateReply(answer, singletone.Condition, context.MakeMessage().Recipient.Name));
                     await context.PostAsync(Message.CreateButtons(context));
                     context.Wait(MessageReceivedAsync);
                     break;      
@@ -99,12 +95,12 @@ namespace Bot.Backend.Logic
             var choice = await result;
             var question = new Questionnaire();
 
-            condition.CurrentChampionat = choice;
+            singletone.Condition.CurrentChampionat = choice;
             var questionString = question.CreateChampionatQuestion(choice);
-            condition.CurrentQuestion = ParseQuestion(questionString);
-            condition.CurrentMessage = questionString;
-            await context.PostAsync($"Чемпионат : {condition.CurrentChampionat}");
-            await context.PostAsync(question.CreateChampionatQuestion(choice));
+            singletone.Condition.CurrentQuestion = ParseQuestion(questionString);
+            singletone.Condition.CurrentMessage = questionString;
+            await context.PostAsync($"Чемпионат : {singletone.Condition.CurrentChampionat}");
+            await context.PostAsync(singletone.Condition.CurrentMessage);
             await context.PostAsync(Message.CreateButtons(context));
             context.Wait(MessageReceivedAsync);
         }

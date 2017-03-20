@@ -51,18 +51,20 @@ namespace Bot.Backend.Logic
             {
                 if(string.Compare(variant.ToLower(), entry.AnswerTrue.ToLower()) == 0)
                 {
-                    int raiting = currentRaiting + CalculateRaiting(championat.RaitingOfChampionat, entry.Raiting);
+                    int raitingForQuestion = CalculateRaiting(championat.RaitingOfChampionat, entry.Raiting);
+                    int raiting = currentRaiting + raitingForQuestion;
                     userRepo.UpdateRaiting(username,raiting);
-                    return "Ты заработал " + CalculateRaiting(championat.RaitingOfChampionat, entry.Raiting) + "очков\n" +
+                    return "Ты заработал " + raitingForQuestion + "очков\n" +
                        "\nСледующий вопрос\n" +
                        "\n" + CreateChampionatQuestion(condition.CurrentChampionat);
                 }
                 else
                 {
-                    int raiting = currentRaiting - CalculateRaiting(championat.RaitingOfChampionat, entry.Raiting);
+                    int raitingForQuestion = CalculateRaiting(championat.RaitingOfChampionat, entry.Raiting);
+                    int raiting = currentRaiting - raitingForQuestion;
                     userRepo.UpdateRaiting(username, raiting);
                     return "Вы ошиблись!\n" +
-                        "\n Я снял у вас " + CalculateRaiting(championat.RaitingOfChampionat, entry.Raiting) + " очков!" + 
+                        "\n Я снял у вас " +raitingForQuestion + " очков!" + 
                         "\n" + CreateChampionatQuestion(condition.CurrentChampionat);
                 }
             }

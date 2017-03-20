@@ -164,6 +164,7 @@
     <Compile Include="Logic\Condition.cs" />
     <Compile Include="Logic\Questionnaire.cs" />
     <Compile Include="Logic\QuizDialog.cs" />
+    <Compile Include="Logic\Singletone.cs" />
     <Compile Include="Models\BotData.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
