@@ -23,7 +23,7 @@ namespace Bot.Backend.HelpfulMethodes
 
             return helloString;
         }
-
+        
         public static string ShowQuestion(string question, List<string> answers, Question obj)
         {
             var questionString = question + "?\n" +

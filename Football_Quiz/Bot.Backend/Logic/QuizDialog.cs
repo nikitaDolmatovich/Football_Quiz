@@ -69,8 +69,9 @@ namespace Bot.Backend.Logic
                     break;
                 case "/stat":
                     singletone.Condition.IsPlay = false;
-                    var raiting = repo.GetCurrentRaiting(context.MakeMessage().Recipient.Name).ToString();
-                    await context.PostAsync(raiting);
+                    var position = repo.GetPosition(context.MakeMessage().Recipient.Name).ToString();
+                    var positionMessage = $"Ты занимаешь {position} место!";
+                    await context.PostAsync(positionMessage);
                     context.Wait(MessageReceivedAsync);
                     break;
                 default:

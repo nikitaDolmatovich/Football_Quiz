@@ -89,5 +89,31 @@ namespace Bot.Backend.Models
                 throw ex;
             }
         }
+
+        public int GetPosition(string username)
+        {
+            var usersByRaiting = context.Users.OrderByDescending(x => x.Raiting).ToArray();
+
+            if(usersByRaiting != null)
+            {
+                int position = 0;
+
+                for (int i = 0; i < usersByRaiting.Count(); i++)
+                {
+                    if(usersByRaiting[i].Username == username)
+                    {
+                        position = i + 1;
+                        break;
+                    }
+                }
+
+                return position;
+            }
+            else
+            {
+                NullReferenceException ex = new NullReferenceException();
+                throw ex;
+            }
+        }
     }
 }
