@@ -35,6 +35,8 @@ namespace Bot.Backend.Logic
 
             var question = repo.GetRandomQuestion();
             var entry = context.Questions.FirstOrDefault(x => x.QuestionValue == question);
+            singletone.Condition.CurrentQuestion = question;
+            singletone.Condition.CurrentMessage = Extension.ShowQuestion(question, GetListAnswers(entry), entry);
 
             return Extension.ShowQuestion(question, GetListAnswers(entry), entry);
         }

@@ -52,16 +52,9 @@ namespace Bot.Backend.Logic
                     context.Wait(MessageReceivedAsync);
                     break;
                 case "/play":
-                    if (!singletone.Condition.IsPlay)
-                    {
-                        singletone.Condition.IsPlay = true;
-                        await context.PostAsync(quest.CreateRandomQuetion());
-                        await context.PostAsync(Extension.CreateButtons(context));
-                    }
-                    else
-                    {
-                        await context.PostAsync("Вы уже играете!");
-                    }
+                    singletone.Condition.IsPlay = true;
+                    await context.PostAsync(quest.CreateRandomQuetion());
+                    await context.PostAsync(Extension.CreateButtons(context));
                     context.Wait(MessageReceivedAsync);
                     break;
                 case "/thematic":
