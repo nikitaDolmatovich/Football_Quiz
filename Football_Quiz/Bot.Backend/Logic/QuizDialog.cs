@@ -26,11 +26,11 @@ namespace Bot.Backend.Logic
         public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> arguments)
         {
             Singletone singletone = Singletone.Instance;
+            BotContexts botContext = new BotContexts();
+            UserRepository repo = new UserRepository(botContext);
             var message = await arguments;
             var messageText = message.Text;
             var quest = new Questionnaire();
-            BotContexts botContext = new BotContexts();
-            UserRepository repo = new UserRepository(botContext);
 
             switch(messageText)
             {

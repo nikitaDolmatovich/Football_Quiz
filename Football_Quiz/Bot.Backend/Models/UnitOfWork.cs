@@ -10,6 +10,8 @@ namespace Bot.Backend.Models
     {
         private BotContexts context = new BotContexts();
         private ChampionatRepository championatRepo;
+        private QuestionRepository questionRepo;
+        private UserRepository userRepo;
         private bool disposed = false;
 
         public ChampionatRepository Championat
@@ -21,6 +23,31 @@ namespace Bot.Backend.Models
                     championatRepo = new ChampionatRepository(context);
                 }
                 return championatRepo;
+            }
+        }
+
+        public QuestionRepository Question
+        {
+            get
+            {
+                if(questionRepo == null)
+                {
+                    questionRepo = new QuestionRepository(context);
+                }
+                return questionRepo;
+            }
+        }
+
+        public UserRepository User
+        {
+            get
+            {
+                if(userRepo == null)
+                {
+                    userRepo = new UserRepository(context);
+                }
+
+                return userRepo;
             }
         }
 
