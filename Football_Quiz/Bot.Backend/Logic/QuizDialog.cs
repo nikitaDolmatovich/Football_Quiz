@@ -35,7 +35,6 @@ namespace Bot.Backend.Logic
             switch(messageText)
             {
                 case "/start":
-                    singletone.Condition.IsPlay = false;
                     var startMenu = Extension.GetWelcomeMessage();
                     await context.PostAsync(startMenu);
                     if (!repo.IsExist(context.MakeMessage().Recipient.Name))
@@ -52,7 +51,6 @@ namespace Bot.Backend.Logic
                     context.Wait(MessageReceivedAsync);
                     break;
                 case "/play":
-                    singletone.Condition.IsPlay = true;
                     await context.PostAsync(quest.CreateRandomQuetion());
                     await context.PostAsync(Extension.CreateButtons(context));
                     context.Wait(MessageReceivedAsync);
@@ -61,7 +59,6 @@ namespace Bot.Backend.Logic
                     ChooseChampionat(context, ChoiceSelectChampionatAsync, "Выберите чемпионат : ");
                     break;
                 case "/stat":
-                    singletone.Condition.IsPlay = false;
                     var position = repo.GetPosition(context.MakeMessage().Recipient.Name).ToString();
                     var positionMessage = Extension.ShowRaiting(position, repo.GetCurrentRaiting(context.MakeMessage().Recipient.Name), repo.GetAll().Count);
                     await context.PostAsync(positionMessage);

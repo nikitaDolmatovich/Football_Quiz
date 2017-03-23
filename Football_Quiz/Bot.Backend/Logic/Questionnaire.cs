@@ -14,49 +14,45 @@ namespace Bot.Backend.Logic
     {
         private const int NUMBER_QUESTION = 4;
         private Singletone singletone = Singletone.Instance;
+        private BotContexts context;
+        private QuestionRepository repo;
+        private UserRepository userRepo;
+
+        public Questionnaire()
+        {
+            context = new BotContexts();
+            repo = new QuestionRepository(context);
+            userRepo = new UserRepository(context);
+        }
 
         public string CreateChampionatQuestion(string championatName)
-        {
-            BotContexts context = new BotContexts();
-            QuestionRepository repo = new QuestionRepository(context);
-
+        { 
             var question = repo.GetNewRandomQuestion(championatName);
             var entry = context.Questions.FirstOrDefault(x => x.QuestionValue == question);
-            singletone.Condition.CurrentQuestion = question;
-            singletone.Condition.CurrentMessage = Extension.ShowQuestion(question, GetListAnswers(entry), entry);
 
-            return singletone.Condition.CurrentMessage;
+            return CreateMessageQuestion(question, GetListAnswers(entry), entry);
         }
 
         public string CreateRandomQuetion()
         {
-            BotContexts context = new BotContexts();
-            QuestionRepository repo = new QuestionRepository(context);
-
             var question = repo.GetRandomQuestion();
             var entry = context.Questions.FirstOrDefault(x => x.QuestionValue == question);
-            singletone.Condition.CurrentQuestion = question;
-            singletone.Condition.CurrentMessage = Extension.ShowQuestion(question, GetListAnswers(entry), entry);
 
-            return Extension.ShowQuestion(question, GetListAnswers(entry), entry);
+            return CreateMessageQuestion(question, GetListAnswers(entry), entry);
         }
 
         public string CreateReply(string variant, string question, string username)
         {
-            BotContexts context = new BotContexts();
-            QuestionRepository repo = new QuestionRepository(context);
-            UserRepository userRepo = new UserRepository(context);
-
             var entry = context.Questions.FirstOrDefault(x => x.QuestionValue == question);
             var championat = context.Championats.FirstOrDefault(x => x.ChampionatId == entry.ChampionatId);
             var user = context.Users.FirstOrDefault(x => x.Username == username);
-            var currentRaiting = user.Raiting;
+            int currentRaiting = user.Raiting;
+            int raitingForQuestion = CalculateRaiting(championat.RaitingOfChampionat, entry.Raiting);
 
-            if(entry != null && championat != null)
+            if (entry != null && championat != null)
             {
                 if(string.Compare(variant.ToLower(), entry.AnswerTrue.ToLower()) == 0)
                 {
-                    int raitingForQuestion = CalculateRaiting(championat.RaitingOfChampionat, entry.Raiting);
                     int raiting = currentRaiting + raitingForQuestion;
                     userRepo.UpdateRaiting(username,raiting);
                     singletone.Condition.CurrentChampionat = championat.ChampionatName;
@@ -66,7 +62,6 @@ namespace Bot.Backend.Logic
                 }
                 else
                 {
-                    int raitingForQuestion = CalculateRaiting(championat.RaitingOfChampionat, entry.Raiting);
                     int raiting = currentRaiting - raitingForQuestion;
                     userRepo.UpdateRaiting(username, raiting);
                     return "Вы ошиблись!\n" +
@@ -81,7 +76,7 @@ namespace Bot.Backend.Logic
             }
         }
 
-        public List<string> GetListAnswers(Question question)
+        private List<string> GetListAnswers(Question question)
         {
             List<string> list = new List<string>();
             Random ran = new Random();
@@ -118,9 +113,17 @@ namespace Bot.Backend.Logic
             return list;
         }
 
-        public int CalculateRaiting(int raitingChampionat, int raitingQuestion)
+        private int CalculateRaiting(int raitingChampionat, int raitingQuestion)
         {
             return raitingChampionat * raitingQuestion;
+        }
+
+        private string CreateMessageQuestion(string question, List<string> answers, Question entry)
+        {
+            singletone.Condition.CurrentQuestion = question;
+            singletone.Condition.CurrentMessage = Extension.ShowQuestion(question, GetListAnswers(entry), entry);
+
+            return singletone.Condition.CurrentMessage;
         }
 
     }
