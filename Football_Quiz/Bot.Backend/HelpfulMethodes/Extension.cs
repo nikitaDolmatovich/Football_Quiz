@@ -36,6 +36,15 @@ namespace Bot.Backend.HelpfulMethodes
             return questionString;
         }
 
+        public static string ShowRaiting(string position, int point, int count)
+        {
+            var raitingString = $"Ты занимешься {position} место!\n" +
+                $"\nКоличество очков : {point}\n" +
+                $"\nВсего участников : {count}\n";
+
+            return raitingString;
+        }
+
         public static IMessageActivity CreateButtons(IDialogContext context)
         {
             var card = new HeroCard("Варианты ответа");

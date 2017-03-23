@@ -63,7 +63,7 @@ namespace Bot.Backend.Logic
                 case "/stat":
                     singletone.Condition.IsPlay = false;
                     var position = repo.GetPosition(context.MakeMessage().Recipient.Name).ToString();
-                    var positionMessage = $"Ты занимаешь {position} место!";
+                    var positionMessage = Extension.ShowRaiting(position, repo.GetCurrentRaiting(context.MakeMessage().Recipient.Name), repo.GetAll().Count);
                     await context.PostAsync(positionMessage);
                     context.Wait(MessageReceivedAsync);
                     break;
