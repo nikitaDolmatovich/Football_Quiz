@@ -84,11 +84,36 @@ namespace Bot.Backend.Logic
         public List<string> GetListAnswers(Question question)
         {
             List<string> list = new List<string>();
+            Random ran = new Random();
+            int number = ran.Next(1, 4);
 
-            list.Add(question.AnswerTrue);
-            list.Add(question.AnswerFalseSecond);
-            list.Add(question.AnswerFalseFirst);
-            list.Add(question.AnswerFalseThird);
+            switch (number)
+            {
+                case 1:
+                    list.Add(question.AnswerTrue);
+                    list.Add(question.AnswerFalseSecond);
+                    list.Add(question.AnswerFalseFirst);
+                    list.Add(question.AnswerFalseThird);
+                    break;
+                case 2:
+                    list.Add(question.AnswerFalseSecond);
+                    list.Add(question.AnswerTrue);
+                    list.Add(question.AnswerFalseThird);
+                    list.Add(question.AnswerFalseFirst);
+                    break;
+                case 3:
+                    list.Add(question.AnswerFalseFirst);
+                    list.Add(question.AnswerFalseSecond);
+                    list.Add(question.AnswerTrue);
+                    list.Add(question.AnswerFalseThird);
+                    break;
+                case 4:
+                    list.Add(question.AnswerFalseThird);
+                    list.Add(question.AnswerFalseFirst);
+                    list.Add(question.AnswerFalseSecond);
+                    list.Add(question.AnswerTrue);
+                    break;
+            }
 
             return list;
         }
