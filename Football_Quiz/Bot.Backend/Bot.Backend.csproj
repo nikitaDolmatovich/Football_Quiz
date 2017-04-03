@@ -161,6 +161,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HelpfulMethodes\Extension.cs" />
+    <Compile Include="HelpfulMethodes\StringExtension.cs" />
     <Compile Include="Logic\Condition.cs" />
     <Compile Include="Logic\Questionnaire.cs" />
     <Compile Include="Logic\QuizDialog.cs" />

@@ -65,7 +65,7 @@ namespace Bot.Backend.Logic
                     context.Wait(MessageReceivedAsync);
                     break;
                 default:
-                    var answer = Extension.ParseVariant(messageText, singletone.Condition.CurrentMessage);
+                    var answer = singletone.Condition.CurrentMessage.ParseVariant(messageText);
                     await context.PostAsync(quest.CreateReply(answer, singletone.Condition.CurrentQuestion, context.MakeMessage().Recipient.Name));
                     await context.PostAsync(Extension.CreateButtons(context));
                     context.Wait(MessageReceivedAsync);
@@ -88,7 +88,7 @@ namespace Bot.Backend.Logic
 
             singletone.Condition.CurrentChampionat = choice;
             var questionString = question.CreateChampionatQuestion(choice);
-            singletone.Condition.CurrentQuestion = Extension.ParseQuestion(questionString);
+            singletone.Condition.CurrentQuestion = questionString.ParseQuestion();
             singletone.Condition.CurrentMessage = questionString;
             await context.PostAsync($"Чемпионат : {singletone.Condition.CurrentChampionat}");
             await context.PostAsync(singletone.Condition.CurrentMessage);
