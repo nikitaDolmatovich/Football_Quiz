@@ -79,6 +79,15 @@ namespace Bot.Backend.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Новости.
+        /// </summary>
+        public static string News {
+            get {
+                return ResourceManager.GetString("News", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Начать игру.
         /// </summary>
         public static string StartGame {

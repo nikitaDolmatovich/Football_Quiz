@@ -64,6 +64,12 @@ namespace Bot.Backend.Logic
                     await context.PostAsync(positionMessage);
                     context.Wait(MessageReceivedAsync);
                     break;
+                case "/news":
+                    News news = new News();
+                    string str = await news.ShowNews();
+                    await context.PostAsync(str);
+                    context.Wait(MessageReceivedAsync);
+                    break;
                 default:
                     var answer = singletone.Condition.CurrentMessage.ParseVariant(messageText);
                     await context.PostAsync(quest.CreateReply(answer, singletone.Condition.CurrentQuestion, context.MakeMessage().Recipient.Name));

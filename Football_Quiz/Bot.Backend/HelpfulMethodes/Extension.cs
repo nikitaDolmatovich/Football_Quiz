@@ -19,7 +19,8 @@ namespace Bot.Backend.HelpfulMethodes
                       $"\n/start - {ResourceBot.MainMenu}\n" +
                       $"\n/play - {ResourceBot.StartGame}\n" +
                       $"\n/thematic - {ResourceBot.ThematicGame}\n" +
-                      $"\n/stat - {ResourceBot.Statistics}";
+                      $"\n/stat - {ResourceBot.Statistics}\n" +
+                      $"\n/news - {ResourceBot.News}";
 
             return helloString;
         }

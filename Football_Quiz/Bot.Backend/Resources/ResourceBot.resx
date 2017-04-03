@@ -124,6 +124,10 @@
     <value>Начальное меню</value>
     <comment>/start</comment>
   </data>
+  <data name="News" xml:space="preserve">
+    <value>Новости</value>
+    <comment>/news</comment>
+  </data>
   <data name="StartGame" xml:space="preserve">
     <value>Начать игру</value>
     <comment>/play</comment>
