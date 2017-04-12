@@ -4,34 +4,34 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="foot_quiz_botdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="footquizbotdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Championat">
           <Key>
             <PropertyRef Name="ChampionatId" />
           </Key>
-          <Property Name="ChampionatId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ChampionatName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ChampionatId" Type="int" Nullable="false" />
+          <Property Name="ChampionatName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="RaitingOfChampionat" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Question">
           <Key>
             <PropertyRef Name="QuestionId" />
           </Key>
-          <Property Name="QuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionId" Type="int" Nullable="false" />
           <Property Name="QuestionValue" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="AnswerTrue" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="AnswerTrue" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AnswerFalseFirst" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AnswerFalseSecond" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AnswerFalseThird" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Raiting" Type="int" Nullable="false" />
           <Property Name="ChampionatId" Type="int" Nullable="false" />
-          <Property Name="AnswerFalseFirst" Type="nvarchar" MaxLength="30" Nullable="false" />
-          <Property Name="AnswerFalseSecond" Type="nvarchar" MaxLength="30" Nullable="false" />
-          <Property Name="AnswerFalseThird" Type="nvarchar" MaxLength="30" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Username" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Raiting" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Question_Championat">
@@ -46,7 +46,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="foot_quiz_botdbModelStoreContainer">
+        <EntityContainer Name="footquizbotdbModelStoreContainer">
           <EntitySet Name="Championat" EntityType="Self.Championat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
@@ -59,13 +59,13 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="foot_quiz_botdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="footquizbotdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Championat">
           <Key>
             <PropertyRef Name="ChampionatId" />
           </Key>
-          <Property Name="ChampionatId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ChampionatName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ChampionatId" Type="Int32" Nullable="false" />
+          <Property Name="ChampionatName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="RaitingOfChampionat" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Questions" Relationship="Self.FK_Question_Championat" FromRole="Championat" ToRole="Question" />
         </EntityType>
@@ -73,22 +73,22 @@
           <Key>
             <PropertyRef Name="QuestionId" />
           </Key>
-          <Property Name="QuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionId" Type="Int32" Nullable="false" />
           <Property Name="QuestionValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="AnswerTrue" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AnswerTrue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AnswerFalseFirst" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AnswerFalseSecond" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AnswerFalseThird" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Raiting" Type="Int32" Nullable="false" />
           <Property Name="ChampionatId" Type="Int32" Nullable="false" />
-          <Property Name="AnswerFalseFirst" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="AnswerFalseSecond" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="AnswerFalseThird" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Championat" Relationship="Self.FK_Question_Championat" FromRole="Question" ToRole="Championat" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Raiting" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_Question_Championat">
@@ -117,9 +117,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="foot_quiz_botdbModelStoreContainer" CdmEntityContainer="BotContexts">
+        <EntityContainerMapping StorageEntityContainer="footquizbotdbModelStoreContainer" CdmEntityContainer="BotContexts">
           <EntitySetMapping Name="Championats">
-            <EntityTypeMapping TypeName="foot_quiz_botdbModel.Championat">
+            <EntityTypeMapping TypeName="footquizbotdbModel.Championat">
               <MappingFragment StoreEntitySet="Championat">
                 <ScalarProperty Name="ChampionatId" ColumnName="ChampionatId" />
                 <ScalarProperty Name="ChampionatName" ColumnName="ChampionatName" />
@@ -128,21 +128,21 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Questions">
-            <EntityTypeMapping TypeName="foot_quiz_botdbModel.Question">
+            <EntityTypeMapping TypeName="footquizbotdbModel.Question">
               <MappingFragment StoreEntitySet="Question">
                 <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
                 <ScalarProperty Name="QuestionValue" ColumnName="QuestionValue" />
                 <ScalarProperty Name="AnswerTrue" ColumnName="AnswerTrue" />
-                <ScalarProperty Name="Raiting" ColumnName="Raiting" />
-                <ScalarProperty Name="ChampionatId" ColumnName="ChampionatId" />
                 <ScalarProperty Name="AnswerFalseFirst" ColumnName="AnswerFalseFirst" />
                 <ScalarProperty Name="AnswerFalseSecond" ColumnName="AnswerFalseSecond" />
                 <ScalarProperty Name="AnswerFalseThird" ColumnName="AnswerFalseThird" />
+                <ScalarProperty Name="Raiting" ColumnName="Raiting" />
+                <ScalarProperty Name="ChampionatId" ColumnName="ChampionatId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="foot_quiz_botdbModel.User">
+            <EntityTypeMapping TypeName="footquizbotdbModel.User">
               <MappingFragment StoreEntitySet="User">
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Username" ColumnName="Username" />

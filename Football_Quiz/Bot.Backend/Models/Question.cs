@@ -17,11 +17,11 @@ namespace Bot.Backend.Models
         public int QuestionId { get; set; }
         public string QuestionValue { get; set; }
         public string AnswerTrue { get; set; }
-        public int Raiting { get; set; }
-        public int ChampionatId { get; set; }
         public string AnswerFalseFirst { get; set; }
         public string AnswerFalseSecond { get; set; }
         public string AnswerFalseThird { get; set; }
+        public int Raiting { get; set; }
+        public int ChampionatId { get; set; }
     
         public virtual Championat Championat { get; set; }
     }
