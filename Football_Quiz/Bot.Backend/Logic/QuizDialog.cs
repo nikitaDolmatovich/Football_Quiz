@@ -52,7 +52,43 @@ namespace Bot.Backend.Logic
                     break;
                 case "/play":
                     await context.PostAsync(quest.CreateRandomQuetion());
-                    await context.PostAsync(Extension.CreateButtons(context));
+                    var card = new HeroCard("Варианты ответа");
+                    card.Buttons = new List<CardAction>()
+                    {
+                        new CardAction()
+                        {
+                            Title = "A",
+                            Type=ActionTypes.ImBack,
+                            Value = "A",
+                        },
+                        new CardAction()
+                        {
+                            Title = "B",
+                            Type=ActionTypes.ImBack,
+                            Value = "B"
+                        },
+                        new CardAction()
+                        {
+                            Title = "C",
+                            Type=ActionTypes.ImBack,
+                            Value = "C"
+                        },
+                        new CardAction()
+                        {
+                            Title = "D",
+                            Type = ActionTypes.ImBack,
+                            Value = "D"
+                        }
+                    };
+
+                    var reply = context.MakeMessage();
+                    reply.Attachments = new List<Attachment>();
+                    reply.Attachments.Add(new Attachment()
+                    {
+                        ContentType = HeroCard.ContentType,
+                        Content = card,
+                    });
+                    await context.PostAsync(reply);
                     context.Wait(MessageReceivedAsync);
                     break;
                 case "/thematic":
@@ -98,7 +134,43 @@ namespace Bot.Backend.Logic
             singletone.Condition.CurrentMessage = questionString;
             await context.PostAsync($"Чемпионат : {singletone.Condition.CurrentChampionat}");
             await context.PostAsync(singletone.Condition.CurrentMessage);
-            await context.PostAsync(Extension.CreateButtons(context));
+            var card = new HeroCard("Варианты ответа");
+            card.Buttons = new List<CardAction>()
+                    {
+                        new CardAction()
+                        {
+                            Title = "A",
+                            Type=ActionTypes.ImBack,
+                            Value = "A",
+                        },
+                        new CardAction()
+                        {
+                            Title = "B",
+                            Type=ActionTypes.ImBack,
+                            Value = "B"
+                        },
+                        new CardAction()
+                        {
+                            Title = "C",
+                            Type=ActionTypes.ImBack,
+                            Value = "C"
+                        },
+                        new CardAction()
+                        {
+                            Title = "D",
+                            Type = ActionTypes.ImBack,
+                            Value = "D"
+                        }
+                    };
+
+            var reply = context.MakeMessage();
+            reply.Attachments = new List<Attachment>();
+            reply.Attachments.Add(new Attachment()
+            {
+                ContentType = HeroCard.ContentType,
+                Content = card,
+            });
+            await context.PostAsync(reply);
             context.Wait(MessageReceivedAsync);
         }
     }
