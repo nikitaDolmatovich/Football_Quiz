@@ -31,14 +31,16 @@ namespace Bot.Backend.Logic
             var entry = context.Questions.FirstOrDefault(x => x.QuestionValue == question);
 
             return CreateMessageQuestion(question, GetListAnswers(entry), entry);
+           
         }
 
         public string CreateRandomQuetion()
         {
             var question = repo.GetRandomQuestion();
             var entry = context.Questions.FirstOrDefault(x => x.QuestionValue == question);
-
+          
             return CreateMessageQuestion(question, GetListAnswers(entry), entry);
+            
         }
 
         public string CreateReply(string variant, string question, string username)

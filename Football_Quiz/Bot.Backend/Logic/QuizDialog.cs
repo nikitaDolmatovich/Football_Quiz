@@ -51,48 +51,26 @@ namespace Bot.Backend.Logic
                     context.Wait(MessageReceivedAsync);
                     break;
                 case "/play":
-                    await context.PostAsync(quest.CreateRandomQuetion());
-                    var card = new HeroCard("Варианты ответа");
-                    card.Buttons = new List<CardAction>()
+                    if(!repo.IsExist(context.MakeMessage().Recipient.Name))
                     {
-                        new CardAction()
-                        {
-                            Title = "A",
-                            Type=ActionTypes.ImBack,
-                            Value = "A",
-                        },
-                        new CardAction()
-                        {
-                            Title = "B",
-                            Type=ActionTypes.ImBack,
-                            Value = "B"
-                        },
-                        new CardAction()
-                        {
-                            Title = "C",
-                            Type=ActionTypes.ImBack,
-                            Value = "C"
-                        },
-                        new CardAction()
-                        {
-                            Title = "D",
-                            Type = ActionTypes.ImBack,
-                            Value = "D"
-                        }
-                    };
-
-                    var reply = context.MakeMessage();
-                    reply.Attachments = new List<Attachment>();
-                    reply.Attachments.Add(new Attachment()
+                        await context.PostAsync("Установить в настройках username, иначе я не смогу сохранить ваш рейтинг!");
+                    }
+                    else
                     {
-                        ContentType = HeroCard.ContentType,
-                        Content = card,
-                    });
-                    await context.PostAsync(reply);
+                        await context.PostAsync(quest.CreateRandomQuetion());
+                        await context.PostAsync(CreateButtons(context));
+                    }
                     context.Wait(MessageReceivedAsync);
                     break;
                 case "/thematic":
-                    ChooseChampionat(context, ChoiceSelectChampionatAsync, "Выберите чемпионат : ");
+                    if (!repo.IsExist(context.MakeMessage().Recipient.Name))
+                    {
+                        await context.PostAsync("Установить в настройках username, иначе я не смогу сохранить ваш рейтинг!");
+                    }
+                    else
+                    {
+                        ChooseChampionat(context, ChoiceSelectChampionatAsync, "Выберите чемпионат : ");
+                    }                
                     break;
                 case "/stat":
                     var position = repo.GetPosition(context.MakeMessage().Recipient.Name).ToString();
@@ -109,7 +87,7 @@ namespace Bot.Backend.Logic
                 default:
                     var answer = singletone.Condition.CurrentMessage.ParseVariant(messageText);
                     await context.PostAsync(quest.CreateReply(answer, singletone.Condition.CurrentQuestion, context.MakeMessage().Recipient.Name));
-                    await context.PostAsync(Extension.CreateButtons(context));
+                    await context.PostAsync(CreateButtons(context));
                     context.Wait(MessageReceivedAsync);
                     break;      
             }
@@ -134,6 +112,12 @@ namespace Bot.Backend.Logic
             singletone.Condition.CurrentMessage = questionString;
             await context.PostAsync($"Чемпионат : {singletone.Condition.CurrentChampionat}");
             await context.PostAsync(singletone.Condition.CurrentMessage);
+            await context.PostAsync(CreateButtons(context));
+            context.Wait(MessageReceivedAsync);
+        }
+
+        private IMessageActivity CreateButtons(IDialogContext context)
+        {
             var card = new HeroCard("Варианты ответа");
             card.Buttons = new List<CardAction>()
                     {
@@ -170,8 +154,8 @@ namespace Bot.Backend.Logic
                 ContentType = HeroCard.ContentType,
                 Content = card,
             });
-            await context.PostAsync(reply);
-            context.Wait(MessageReceivedAsync);
+
+            return reply;
         }
     }
 }
